@@ -2,6 +2,8 @@ package config
 
 import (
 	"fmt"
+	"go-gorm-gin/common"
+	"go-gorm-gin/shared/model"
 	"time"
 
 	"gorm.io/driver/postgres"
@@ -32,4 +34,8 @@ func ConnectDatabaseWithRetryIn60s(cfg *AppConfig) (*gorm.DB, error) {
 	}
 
 	return nil, fmt.Errorf("failed to connect to database: %w", err)
+}
+
+func AutoMigration(db *gorm.DB) {
+	db.Table(common.TableTag).AutoMigrate(&model.Tag{})
 }

@@ -1,0 +1,56 @@
+TixDelight
+
+Chào {{ .Recipient }},
+TixDelight xác nhận bạn đã đặt vé thành công cho {{ .Event.Name }}. Vui lòng xem chi tiết Thông tin xuất vé và Thông tin giao dịch dưới đây
+
+Thông tin xuất vé
+- Mã đặt chỗ: {{ .Order.PublicID }}
+- Sự kiện:
+  • {{ .Event.Name }}
+  • {{ .EventTime }}
+  • {{ .Event.VenueName }}
+  • {{ .Event.VenueAddress }}, {{ .Event.VenueCity }}
+
+- Khu vực và ghế ngồi
+{{- range .TicketGroups }}
+  • {{.Name}}
+    {{.Price}} VND
+    Số ghế: {{ range $i, $s := .Seats }}{{ if ne $i 0 }}, {{ end }}{{ . }}{{ end }}
+{{- end }}
+
+- Thông tin nhận vé
+  • Người nhận
+    {{ .ClaimerInfo.FullName }}
+    {{ .ClaimerInfo.PhoneNumber }}
+    {{ .ClaimerInfo.Email }}
+{{- if eq .DeliveryInfo.DeliveryMethod "claiming" }}
+  • Nhận vé tại địa điểm tổ chức: {{ .Event.VenueAddress }}, {{ .Event.VenueCity }}
+{{- end }}
+{{- if eq .DeliveryInfo.DeliveryMethod "shipping" }}
+  • Giao hàng đến: {{ .DeliveryInfo.Address }}
+{{- end }}
+{{- if eq .DeliveryInfo.DeliveryMethod "email" }}
+  • Nhận vé online qua email: Vé được gửi qua email của người đại diện nhận vé
+{{- end }}
+
+Thông tin thanh toán
+- Tổng tiền: {{ .TotalAmount }} VND
+- Loại vé:
+{{- range .TicketGroups }}
+  • {{ .Name }} (x{{ len .Seats }} vé): {{ .CostStr }} VND
+{{- end }}
+{{- if eq .DeliveryInfo.DeliveryMethod "shipping" }}
+- Phí giao vé: {{ "30.000" }} VND
+{{- end }}
+- Hình thức thanh toán: Credit Card - Cổng thanh toán Xendit
+- Ngày giao dịch: {{ .TransactionTime }}
+- Trạng thái: Thành công
+
+{{ .Notes }}
+
+TixDelight cảm ơn bạn!
+
+Thân mến,
+TixDelight Team
+
+© 2023 TixDelight

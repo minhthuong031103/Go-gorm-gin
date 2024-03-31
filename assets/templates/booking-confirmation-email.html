@@ -1,0 +1,154 @@
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body style="margin: 0; padding: 0; background: #F0F2F4">
+<div style="max-width: 800px; margin: auto; background: white; border: 1px solid #ccc">
+<div style="font-family: Inter, Arial, sans-serif; font-style: normal;font-size: 16px; line-height: 24px; padding: 24px 32px">
+    <div class="header">
+        <div class="logo">
+            <img src="{{ $.ResourceDomain }}/logo.png" alt="time" width="157" height="32" style="vertical-align: top">
+        </div>
+    </div>
+
+    <div class="body" style="margin-top: 48px">
+        <div class="intro">
+            Chào {{ .Recipient }},<br/>
+            <br/>
+            TixDelight xác nhận bạn đã đặt vé thành công cho {{ .Event.Name }}. Vui lòng xem chi tiết Thông tin xuất vé và Thông tin giao dịch dưới đây
+        </div>
+        <div class="ticket-info" style="margin-top: 24px; border-radius: 8px;border: 1px solid #EAECF0;background: white;box-shadow: 0 2px 4px -2px rgba(16, 24, 40, 0.06), 0 4px 8px -2px rgba(16, 24, 40, 0.10);">
+            <div>
+                <div class="title" style="border-bottom: 1px solid #EAECF0;background: #FCFCFD; padding: 12px 16px; font-size: 18px; line-height: 28px; font-weight: 600; vertical-align: middle;">
+                    <span>Thông tin xuất vé</span>
+                    <span style="font-size: 14px; color: #667085; float: right">Mã đặt chỗ: {{ .Order.PublicID }}</span>
+                </div>
+                <div class="content" style="padding: 16px">
+                    <div class="event-info" style="border-bottom: 2px dashed #D0D5DD; padding-bottom: 32px">
+<!--                        <img src="{{ .Event.CoverImage }}" alt="Event cover image" />-->
+                        <img src="https://picsum.photos/seed/561/1218/526" alt="Event cover image" style="width: 100%"/>
+                        <div style="font-size: 24px; line-height: 32px; font-weight: 600; margin: 24px 0 16px 0; padding: 0 16px">{{ .Event.Name }}</div>
+                        <div style="padding: 0 16px">
+                            <img src="{{ $.ResourceDomain }}/calendar.png" alt="time" width="20" height="20" style="padding: 2px; vertical-align: top">
+                            <span style="font-size: 16px; line-height: 24px; font-weight: 600; margin-left: 6px; vertical-align: top; color: #101828">{{ .EventTime }}</span>
+                        </div>
+                        <div style="padding: 0 16px">
+                            <img src="{{ $.ResourceDomain }}/marker-pin-01.png" alt="time" width="20" height="20" style="padding: 2px; vertical-align: top">
+                            <span style="font-size: 16px; line-height: 24px; font-weight: 600; margin-left: 6px; vertical-align: top; color: #101828">{{ .Event.VenueName }}</span>
+                        </div>
+                        <div style="padding: 0 16px">
+                            <div style="display: inline-block; width: 24px; height: 24px;"></div>
+                            <span style="font-size: 14px; line-height: 24px; font-weight: 400; margin-left: 6px; vertical-align: top; color: #667085">{{ .Event.VenueAddress }}, {{ .Event.VenueCity }}</span>
+                        </div>
+                    </div>
+
+                    <div class="ticket-details">
+                        <div style="font-size: 20px; line-height: 30px; font-weight: 600; margin-top: 16px; padding: 0 16px;">Khu vực và ghế ngồi</div>
+                        {{- range .TicketGroups }}
+                        <div style="margin-top: 16px;">
+                            <div style="display: inline-block; width: 24px; height: 24px; vertical-align: top">
+                                <div style="display: block; width: 20px; height: 20px; vertical-align: top; border-radius: 8px; background: #FF37A5; margin: 2px;">
+                                </div>
+                            </div><!--
+                            --><span style="margin-left: 8px; font-size: 16px; line-height: 24px; font-weight: 600; vertical-align: top">{{.Name}}</span>
+                        </div>
+                        <div>
+                            <div style="display: inline-block; width: 20px;height: 24px;"></div>
+                            <span style="margin-left: 8px; font-size: 16px; line-height: 24px; font-weight: 600; vertical-align: top">{{.Price}} VND</span>
+                        </div>
+                        <div style="margin-top: 16px;">
+                            <img src="{{ $.ResourceDomain }}/hash-02.png" alt="time" width="20" height="20" style="padding: 2px; vertical-align: top">
+                            <span style="margin-left: 8px; font-size: 16px; line-height: 24px; font-weight: 600; vertical-align: top">Số ghế</span>
+                        </div>
+                        <div>
+                            {{- range .Seats }}
+                            <div style="display: inline-block; border-radius: 16px;background: #F2F4F7; padding: 0 32px">{{ . }}</div>
+                            {{- end }}
+                        </div>
+                        {{- end }}
+                    </div>
+
+                    <div class="delivery-info" style="margin-top: 32px; color: #101828">
+                        <div style="font-size: 20px;font-style: normal;font-weight: 600;line-height: 30px;">Thông tin nhận vé</div>
+                        <div class="recipient-info" style="margin-top: 16px; border-radius: 8px; border: 1px solid #EAECF0; background: white; padding: 16px; font-size: 16px; line-height: 24px">
+                            <div style="font-weight: 600;">Người nhận</div>
+                            <ul style="margin-block-start: 4px;margin-block-end: 0;padding-inline-start: 20px; font-weight: 400">
+                                <li>{{ .ClaimerInfo.FullName }}</li>
+                                <li>{{ .ClaimerInfo.PhoneNumber }}</li>
+                                <li>{{ .ClaimerInfo.Email }}</li>
+                            </ul>
+                        </div>
+                        <div class="delivery-method" style="margin-top: 8px; border-radius: 8px; border: 1px solid #EAECF0; background: white; padding: 16px">
+                            {{- if eq .DeliveryInfo.DeliveryMethod "claiming" }}
+                            <div style="font-size: 16px; line-height: 24px; font-weight: 600;">Nhận vé tại địa điểm tổ chức</div>
+                            <div>{{ .Event.VenueAddress }}, {{ .Event.VenueCity }}</div>
+                            {{- end }}
+                            {{- if eq .DeliveryInfo.DeliveryMethod "shipping" }}
+                            <div style="font-size: 16px; line-height: 24px; font-weight: 600;">Giao vé đến địa chỉ</div>
+                            <div>{{ .DeliveryInfo.Address }}</div>
+                            {{- end }}
+                            {{- if eq .DeliveryInfo.DeliveryMethod "email" }}
+                            <div style="font-size: 16px; line-height: 24px; font-weight: 600;">Nhận vé online qua email</div>
+                            <div>Vé được gửi qua email của người đại diện nhận vé</div>
+                            {{- end }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="payment-info" style="margin-top: 24px; border-radius: 8px;border: 1px solid #EAECF0;background: white;box-shadow: 0 2px 4px -2px rgba(16, 24, 40, 0.06), 0 4px 8px -2px rgba(16, 24, 40, 0.10);">
+            <div class="summary" style="border-bottom: 1px solid #EAECF0;background: #FCFCFD; padding: 12px 16px; font-size: 20px; line-height: 30px; font-weight: 600; vertical-align: middle;">
+                <span>Thông tin thanh toán</span>
+                <span style="float: right; color: #F04438">{{ .TotalAmount }} VND</span>
+            </div>
+            <div class="breakdown" style="font-size: 16px; line-height: 24px; padding: 16px;">
+                {{- range .TicketGroups }}
+                <div style="">
+                    <span style="font-weight: 400; color: #667085">{{ .Name }} (x{{ len .Seats }} vé)</span>
+                    <span style="font-weight: 500; color: #101828; float: right">{{ .CostStr }} VND</span>
+                </div>
+                {{- end }}
+                {{- if eq .DeliveryInfo.DeliveryMethod "shipping" }}
+                <div style="">
+                    <span style="font-weight: 400; color: #667085">Phí giao vé</span>
+                    <span style="font-weight: 500; color: #101828; float: right">{{ "30.000" }} VND</span>
+                    <div style="border-bottom: 1px solid #EAECF0; margin-top: 16px;"></div>
+                </div>
+                {{- end }}
+                <div style="margin-top: 16px;">
+                    <div style="">
+                        <span style="font-weight: 400; color: #667085">Hình thức thanh toán</span>
+                        <span style="font-weight: 500; color: #101828; float: right">
+                            <span style="margin-left: 8px;">Credit Card - Cổng thanh toán Xendit</span>
+                        </span>
+
+                    </div>
+                    <div style="">
+                        <span style="font-weight: 400; color: #667085">Ngày giao dịch</span>
+                        <span style="font-weight: 500; color: #101828; float: right">{{ .TransactionTime }}</span>
+                    </div>
+                    <div style="">
+                        <span style="font-weight: 400; color: #667085">Trạng thái</span>
+                        <span style="font-weight: 500; color: #079455; float: right">Thành công</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="notes" style="margin-top: 24px;">
+            {{ .Notes }}
+        </div>
+        <div class="outro" style="margin-top: 24px;">
+            TixDelight cảm ơn bạn!<br/>
+            <br/>
+            <strong>Thân mến,<br/>
+            TixDelight Team</strong>
+        </div>
+    </div>
+</div>
+<div class="footer" style="padding: 24px 32px; background: #F2F4F7">
+    © 2023 TixDelight
+</div>
+</div>
+</body>

@@ -1,0 +1,26 @@
+@import url("css/a5.css");
+
+html {
+    font-size: 10pt;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #F0F2F4;
+}
+
+.body-container {
+    width: 800px;
+    margin: auto;
+    background: white;
+    border: 1px solid #ccc;
+}
+
+.ticket-container {
+    font-family: Inter, Arial, sans-serif;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 24px;
+    padding: 24px 32px;
+}

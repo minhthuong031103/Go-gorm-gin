@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	appctx "go-gorm-gin/components/appCtx"
 	"go-gorm-gin/config"
 	"go-gorm-gin/middleware"
+	taghandler "go-gorm-gin/modules/tag/tagHandler"
 	"log"
 
 	_ "go-gorm-gin/docs"
@@ -38,16 +40,24 @@ func main() {
 	}
 	if cfg.Env == "dev" {
 		db.Debug()
+		config.AutoMigration(db)
 	}
 
+	appCtx := appctx.NewAppContext(
+		db,
+		cfg.SecretKey,
+		cfg.ServerHost,
+	)
 	// appCtx := appctx.NewAppContext(db, cfg.SecretKey, cfg.ServerHost)
 	r := gin.Default()
 	r.Use(middleware.CORSMiddleware())
 	r.Use(middleware.Recover())
+
 	apiRoute := r.Group("/")
 	{
 		apiRoute.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 		log.Println("Swagger is running on http://localhost:8080/docs/index.html")
+		taghandler.SetUpRoutes(apiRoute, appCtx)
 	}
 
 	errorInit := r.Run(fmt.Sprintf(":%s", cfg.Port))
